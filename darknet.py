@@ -105,5 +105,9 @@ def create_modules(blocks):
             upsample = nn.Upsample(scale_factor = 2, mode = "nearest")
             module.add_module("Upsample_{}".format(index), upsample)
 
+
         #路由层
         elif (x["type"] == "route"):
+            x["layers"] = x["layers"].split(',')
+
+            start = int(x["layer"][0])
