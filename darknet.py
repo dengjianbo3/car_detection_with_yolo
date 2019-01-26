@@ -52,7 +52,7 @@ class DetectionLayer(nn.Module):
         super(DetectionLayer, self).__init__()
         self.anchors = anchors
 
-
+#解析cfg文件
 def create_modules(blocks):
     net_info = blocks[0]
     module_list = nn.ModuleList()
@@ -109,5 +109,63 @@ def create_modules(blocks):
         #路由层
         elif (x["type"] == "route"):
             x["layers"] = x["layers"].split(',')
-
+            #start of a route
             start = int(x["layer"][0])
+            #end, if there exist one
+            try:
+                end = int(x["layers"][0])
+            except:
+                end = 0
+            if start > 0:
+                start = start - index
+            if end > 0:
+                end = end = index
+            route = EmptyLayer()
+            module.add_module("route_{0}".format(index),route)
+
+            if end < 0:
+                filters = output_filters[index + start] + output_filters[index + end]
+            else:
+                filters = output_filters[index + start]
+
+        #跳转连接层
+        elif (x["type"] == "shortcut"):
+            shortcut = EmptyLayer()
+            module.add_module("shortcut_{}".format(index), shortcut)
+
+        #YOLO 检测层
+        elif (x["type"] == "yolo"):
+            mask = x["mask"].split(",")
+            mask = [int(x) for x in mask]
+
+            anchors = x["anchors"].split(",")
+            anchors = [int(a) for a in anchors]
+            anchors = [(anchors[i], anchors[i+1] for i in range(0, len(anchors), 2))]
+            anchors = [anchors[i] for i in mask]
+
+            detection = DetectionLayer(anchors)
+            module.add_module("Detection_{}".format(index), detection)
+
+        module_list.append(module)
+        prev_filters = filters
+        output_filters.append(filters)
+
+    return (net_info, module_list)
+
+
+#darknet
+class Darknet(nn.Module):
+    def __init__(self, cfgfile):
+        super(Darknet, self).__init__()
+        self.blocks = parse_cfg(cfgfile)
+        self.net_info,  self,module_list = create_modules(self.blocks)
+
+    def forward(self, x, CUDA):
+        modules = self.blocks[1:]
+        outputs = {}
+
+        write = 0
+        for i, module in enumerate(modules):
+            module_type = (module["type"])
+
+        elif module_type == "route"
