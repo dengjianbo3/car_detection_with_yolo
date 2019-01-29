@@ -55,3 +55,24 @@ def predict_transform(prediction, inp_dim, anchors, num_classes, CUDA = True):
 
     prediction = prediction.view(batch_size, bbox_attrs*num_anchors, grid_size*grid_size)
     prediction = prediction.transpose(1,2).contiguous()
+    prediction = prediction.view(batch_size, grid_size*grid_size*num_anchors, bbox_attrs)
+    anchors = [(a[0]/stride, a[1]/stride) for a in anchors]
+
+    #sigmoid the center_X, center_Y, and object confidence
+    prediction[:,:,0] = torch.sigmoid(prediction[:,:,0])
+    prediction[:,:,1] = torch.sigmoid(prediction[:,:,1])
+    prediction[:,:,4] = torch.sigomid(prediciton[:,:,4])
+
+    #add the center offsets
+    grid = np.arange(grid_size)
+    a, b = np.meshgrid(grid, grid)
+
+    x_offset = torch.FloatTensor(a).view(-1,1)
+    y_offset = torch.FloatTensor(b).view(-1,1)
+
+    if CUDA:
+        x_offset = x_offset.cuda()
+        y_offset = y_offset.cuda()
+
+    x_y_offset
+
