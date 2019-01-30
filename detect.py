@@ -172,3 +172,38 @@ colors = okl.load(open("pallete","rb"))
 draw = time.time()
 
 def write(x, results):
+    c1 = tuple(x[1:3].int())
+    c2 = tuple(x[3:5].int())
+    img = results[int(x[0])]
+    cls = int(x[-1])
+    color = random.choice(colors)
+    label = "{0}".format(classes[cls])
+    cv2.rectangle(img, c1, c2, color, 1)
+    t_size = cv2.getTextSize(label, cv2.FONT_HERSHEY_PLAIN, 1, 1)[0]
+    c2 = c1[0] + t_size[0] + 3, c1[1] + t_size[1] + 4
+    cv2.rectangle(img, c1, c2, color, -1)
+    cv2.putText(img, label, (c1[0], c1[1] + t_size[1] + 4), cv2.FONT_HERSHEY_PLAIN, 1, [255,255,255], 1)
+    return img
+
+list(map(lambda x:write(x, loaded_ims), output))
+
+det_names = pd.Series(imlist).apply(lambda x:"{}/det_{}".format(args.det, x.split("/")[-1]))
+
+list(map(cv2.imwrite, det_names, loaded_ims))
+
+end = time.time()
+
+print("SUMMARY")
+print("--------------------------------------------------------")
+print("{:25s}: {}".format("Task","Time Taken (in seconds)"))
+print()
+print("{:25s}: {:2.3f}".format("Reading addresses", load_batch - read_dir))
+print("{:25s}: {:2.3f}".format("Loading batch", start_det_loop - load_batch))
+print("{:25s}: {:2.3f}".format("Detection (" + str(len(imlist)) + " images)", output_recast - start_det_loop))
+print("{:25s}: {:2.3f}".format("Output Processing", class_load - output_recast))
+print("{:25s}: {:2.3f}".format("Drawing Boxes", end - draw))
+print("{:25s}: {:2.3f}".foramt("Average time_per_img", (end - load_batch)/len(imlist)))
+print("--------------------------------------------------------")
+
+torch.cuda.empty_cache()
+
