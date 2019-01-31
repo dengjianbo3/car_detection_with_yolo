@@ -144,7 +144,7 @@ def create_modules(blocks):
 
             anchors = x["anchors"].split(",")
             anchors = [int(a) for a in anchors]
-            anchors = [(anchors[i], anchors[i+1] for i in range(0, len(anchors), 2))]
+            anchors = [(anchors[i], anchors[i+1]) for i in range(0, len(anchors), 2)]
             anchors = [anchors[i] for i in mask]
 
             detection = DetectionLayer(anchors)
@@ -232,7 +232,7 @@ class Darknet(nn.Module):
             self.header = torch.from_numpy(header)
             self.seen = self.header[3]
 
-            weights = np.fromfile(fp. dtype = np.float32)
+            weights = np.fromfile(fp, dtype = np.float32)
 
             ptr = 0
             for i in range(len(self.module_list)):
