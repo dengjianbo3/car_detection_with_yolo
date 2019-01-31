@@ -23,8 +23,8 @@
       <file leaf-file-name="darknet.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/darknet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="189" column="49" selection-start-line="189" selection-start-column="49" selection-end-line="189" selection-end-column="49" />
+            <state relative-caret-position="274">
+              <caret line="260" column="56" selection-start-line="260" selection-start-column="50" selection-end-line="260" selection-end-column="56" />
               <folding>
                 <element signature="e#41#72#0" expanded="true" />
               </folding>
@@ -65,6 +65,7 @@
       <find>batch_normalize=</find>
       <find>yolo</find>
       <find>prev</find>
+      <find>weight</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -134,10 +135,9 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="953" y="0" width="974" height="1047" extended-state="0" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24843423" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.123958334" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -334,8 +334,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/darknet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="189" column="49" selection-start-line="189" selection-start-column="49" selection-end-line="189" selection-end-column="49" />
+        <state relative-caret-position="274">
+          <caret line="260" column="56" selection-start-line="260" selection-start-column="50" selection-end-line="260" selection-end-column="56" />
           <folding>
             <element signature="e#41#72#0" expanded="true" />
           </folding>
